@@ -8,6 +8,8 @@ This repository will contain a node.js REST API, based on a course i am actually
 
 * 🟨 Node.js (Express)
 * 🔵 Insomnia
+* 🟦 Sequelize
+* 🦭 MariaDB
 
 ### ...
 
