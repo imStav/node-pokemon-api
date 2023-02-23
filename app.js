@@ -31,6 +31,9 @@ require('./src/routes/updatePokemon')(app)
 // DELETE /api/pokemons/id
 require('./src/routes/deletePokemon')(app)
 
+// Login endpoint
+require('./src/routes/login')(app)
+
 
 //Errors management
 // 404 - Client side error

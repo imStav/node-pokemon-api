@@ -1,7 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize')
 const PokemonModel = require('../models/pokemon')
+const UserModel = require('../models/users')
 const pokemons = require('./mock-pokemon')
-  
+const bcrypt = require('bcrypt')
+
 const sequelize = new Sequelize('pokedex', 'dba', '123', {
   host: 'localhost',
   dialect: 'mariadb',
@@ -10,9 +12,10 @@ const sequelize = new Sequelize('pokedex', 'dba', '123', {
   },
   logging: false
 })
-  
+
 const Pokemon = PokemonModel(sequelize, DataTypes)
-  
+const User = UserModel(sequelize, DataTypes)
+
 const initDb = () => {
   return sequelize.sync({force: true}).then(_ => {
     pokemons.map(pokemon => {
@@ -24,10 +27,16 @@ const initDb = () => {
         types: pokemon.types
       }).then(pokemon => console.log(pokemon.toJSON()))
     })
-    console.log('La base de donnée a bien été initialisée !')
+
+    //Encrypt the password 'pikachu' with a salt round of 10 (encryption force)
+    bcrypt.hash('pikachu', 10)
+    .then(hash => User.create({ username: 'pikachu', password: hash }))
+    .then(user => console.log(user.toJSON()))
+  
+    console.log("La BDD a bien été initialisée")
   })
 }
   
 module.exports = { 
-  initDb, Pokemon
+  initDb, Pokemon, User
 }
